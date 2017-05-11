@@ -25,10 +25,15 @@ $(document).ready(function(){
     $vm.debug_message	   =true;
     //--------------------------------------------------------
 	var start=function(){
-        if(window.location.toString().indexOf('d=1')!=-1) $vm.debug=true;
-		var url=$vm.url('__HOST__/version.html?_=')+new Date().getTime();
-		if($vm.debug_message===true) console.log('load module from '+url);
-        $.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_vmapi();},'text')
+		$vm.version=new Date().getTime().toString();
+		var url=$vm.url('__HOST__/version.html?_=')+$vm.version;
+		if(window.location.toString().indexOf('debug=1')==-1){
+			if($vm.debug_message===true) console.log('load module from '+url);
+			$.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_vmapi();},'text')
+		}
+		else{
+		    load_vmapi();
+		}
 	}
 	//--------------------------------------------------------
     var load_vmapi   =function(){ load_js($vm.url('__LIB__/vmiis/VmAPI/distribution/vmapi.min.js'),load_vm);	}
