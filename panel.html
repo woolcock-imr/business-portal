@@ -12,7 +12,7 @@
                 <li data-name=import>Data import</li>
                 <li data-name=export>Data export</li>
                 <br>
-		        <li data-name=third_party data-s=1>Third party data processing</li>
+		<li data-name=third_party data-s=1>Third party data processing</li>
              </ul>
         </div>
     </div>
@@ -37,11 +37,11 @@
                 query_tid       :'20010437',
             }
             //---------------------------------------------
-            L[A+'data']          ={table_id:v.module_tid,       var:v,     url:G+'/portal/module.html'};
+            L[A+'data']          ={table_id:v.module_tid,       var:v,     url:G+'/portal/data.html'};
             L[A+'query']         ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.html',form_module:A+'query_form'};
             L[A+'query_form']    ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.form.html'};
             L[A+'import']        ={                                        url:G+'/portal/import.html'};
-            L[A+'export']        ={                                        url:G+'/portal/data_console.html'};
+            L[A+'export']        ={                                        url:G+'/portal/export.html'};
             //---------------------------------------------
         }
         module_list();
@@ -53,15 +53,15 @@
             _set_nav_link();
         });
         //---------------------------------------------
-		_special_click_process=function(li){
-			var data_name=$(li).attr('data-name');
-			if(data_name=='third_party'){
-				var url='https://woolcock-imr.github.io/third-party-extension/index.html';
-				url+="?ver="+$vm.version+"&server="+$vm.server;
-				window.open(url,url);
-			}
+	_special_click_process=function(li){
+		var data_name=$(li).attr('data-name');
+		if(data_name=='third_party'){
+			var url='https://woolcock-imr.github.io/third-party-extension/index.html';
+			url+="?ver="+$vm.version+"&server="+$vm.server;
+			window.open(url,url);
 		}
-		//---------------------------------------------
+	}
+	//---------------------------------------------
     }
 </script>
 <style>
