@@ -23,15 +23,13 @@ $(document).ready(function(){
     $vm.debug_message	   =true;
     //--------------------------------------------------------
     var start=function(){
-	$vm.version=new Date().getTime().toString();
-	var url=$vm.url('__HOST__/version.html?_=')+$vm.version;
-	if(window.location.toString().indexOf('debug=1')==-1){
-	    if($vm.debug_message===true) console.log('load module from '+url);
-	    $.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_vmapi();},'text')
+	$vm.reload='';
+	if(window.location.toString().indexOf('reload=1')!=-1){
+	    $vm.reload=new Date().getTime().toString();
 	}
-	else{
-	    load_vmapi();
-	}
+	var url=$vm.url('__HOST__/version.html?_=')+new Date().getTime().toString();
+	if($vm.debug_message===true) console.log('load module from '+url);
+	$.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_vmapi();},'text')
     }
     //--------------------------------------------------------
     var load_vmapi   =function(){ load_js($vm.url('__LIB__/vmiis/VmAPI/distribution/vmapi.min.js'),load_vm);	}
@@ -42,16 +40,16 @@ $(document).ready(function(){
 	var ver=localStorage.getItem(url+"_ver");
 	var txt=localStorage.getItem(url+"_txt");
 	//------------------------------------------
-	if(ver!=$vm.version || txt===null || $vm.debug===true){
-            if($vm.debug_message===true) console.log('load module from '+url);
-                $.get(url+'?_='+$vm.version,function(data){
-                localStorage.setItem(url+"_txt",data);
-                localStorage.setItem(url+"_ver",$vm.version);
-    		$('head').append('<scr'+'ipt>'+data+'</scr'+'ipt>');
-                next();
+	if(ver!=$vm.version || txt===null || $vm.debug===true || $vm.reload!=''){
+	    if($vm.debug_message===true) console.log('load module from '+url+'?_='+$vm.version+$vm.reload);
+	    $.get(url+'?_='+$vm.version+$vm.reload,function(data){
+		localStorage.setItem(url+"_txt",data);
+		localStorage.setItem(url+"_ver",$vm.version);
+		$('head').append('<scr'+'ipt>'+data+'</scr'+'ipt>');
+		next();
 	    },'text');
-        }
-        else{ $('head').append('<scr'+'ipt>'+txt+'</scr'+'ipt>'); next(); }
+	}
+	else{ $('head').append('<scr'+'ipt>'+txt+'</scr'+'ipt>'); next(); }
         //------------------------------------------
     }
     //--------------------------------------------------------
