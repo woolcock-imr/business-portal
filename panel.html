@@ -6,12 +6,14 @@
         <div class='nav__ID'>
             <br>
             <ul>
-                <li data-name=module>Data</li>
-                <li data-name=query>Queries</li>
+                <li data-name=data>Data processing</li>
+                <li data-name=query>Data queries</li>
                 <br>
-                <li data-name=import>Import</li>
-                <li data-name=export>Export</li>
-            </ul>
+                <li data-name=import>Data import</li>
+                <li data-name=export>Data export</li>
+                <br>
+		        <li data-name=third_party data-s=1>Third party data processing</li>
+             </ul>
         </div>
     </div>
 </div>
@@ -25,7 +27,7 @@
         var module_list=function(){
             _app_id='';
             //---------------------------------------------
-            var L=$vm.module_list,A=_app_id,H=$vm.hosting_path,
+            var L=$vm.module_list,A=_app_id,G='https://vmiis.github.io/modules',H=$vm.hosting_path,
             M=$vm.library_path+'/vmiis/module-library';
             //---------------------------------------------
             //variables used inside modules
@@ -35,11 +37,11 @@
                 query_tid       :'20010437',
             }
             //---------------------------------------------
-            L[A+'module']        ={table_id:v.module_tid,       var:v,     url:M+'/portal/module.html'};
-            L[A+'query']         ={table_id:v.query_tid,        var:v,     url:M+'/portal/query.html',form_module:A+'query_form'};
-            L[A+'query_form']    ={table_id:v.query_tid,        var:v,     url:M+'/portal/query.form.html'};
-            L[A+'import']        ={                                        url:M+'/portal/import.html'};
-            L[A+'export']        ={                                        url:M+'/portal/data_console.html'};
+            L[A+'data']          ={table_id:v.module_tid,       var:v,     url:G+'/portal/module.html'};
+            L[A+'query']         ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.html',form_module:A+'query_form'};
+            L[A+'query_form']    ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.form.html'};
+            L[A+'import']        ={                                        url:G+'/portal/import.html'};
+            L[A+'export']        ={                                        url:G+'/portal/data_console.html'};
             //---------------------------------------------
         }
         module_list();
@@ -51,16 +53,15 @@
             _set_nav_link();
         });
         //---------------------------------------------
-        _special_click_process=function(li){
-            var data_name=$(li).attr('data-name');
-            if(data_name=='third_party'){
-                var url="https://vmiis.github.io/saas/third-party-extension-example/index.html";
-                var tab_name="https://vmiis.github.io/saas/third-party-extension-example/index.html";
-                url+="?ver="+$vm.version+"&server="+$vm.server+"&input=";
-                window.open(url,tab_name);
-            }
-        }
-        //---------------------------------------------
+		_special_click_process=function(li){
+			var data_name=$(li).attr('data-name');
+			if(data_name=='third_party'){
+				var url='https://woolcock-imr.github.io/third-party-extension/index.html';
+				url+="?ver="+$vm.version+"&server="+$vm.server;
+				window.open(url,url);
+			}
+		}
+		//---------------------------------------------
     }
 </script>
 <style>
