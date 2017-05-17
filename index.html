@@ -27,7 +27,7 @@ $(document).ready(function(){
 	if(window.location.toString().indexOf('reload=1')!=-1){
 	    $vm.reload=new Date().getTime().toString();
 	}
-	var url=$vm.url('__HOST__/version.html?_=')+new Date().getTime().toString();
+	var url=$vm.url('https://woolcock-imr.github.io/business-portal/version.html?_=')+new Date().getTime().toString();
 	if($vm.debug_message===true) console.log('load module from '+url);
 	$.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_vmapi();},'text')
     }
