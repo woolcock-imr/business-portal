@@ -14,7 +14,7 @@ $(document).ready(function(){
         $vm.debug	    =true;
     }
     else{
-        $vm.hosting_path    ="https://rt.woolcock.org.au/github";
+        $vm.hosting_path    ="https://woolcock-imr.github.io/business-portal";
         $vm.library_path    ='https://rt.woolcock.org.au/github';
         $vm.server	    ="production";
         $VmAPI.api_base	    ="https://rt.woolcock.org.au/";
@@ -27,14 +27,14 @@ $(document).ready(function(){
 	if(window.location.toString().indexOf('reload=1')!=-1){
 	    $vm.reload=new Date().getTime().toString();
 	}
-	var url=$vm.url('https://woolcock-imr.github.io/business-portal/version.html?_=')+new Date().getTime().toString();
+	var url=$vm.url($vm.hosting_path+'/version.html?_=')+new Date().getTime().toString();
 	if($vm.debug_message===true) console.log('load module from '+url);
 	$.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_vmapi();},'text')
     }
     //--------------------------------------------------------
     var load_vmapi   =function(){ load_js($vm.url('__LIB__/vmiis/VmAPI/distribution/vmapi.min.js'),load_vm);	}
     var load_vm      =function(){ load_js($vm.url('__LIB__/vmiis/VmFramework/distribution/vmframework.min.js'),init);}
-    var init         =function(){ $vm.init({callback:function(){$vm.load_first_module({url:'https://woolcock-imr.github.io/business-portal/layout.html'}); last();  }});	}
+    var init         =function(){ $vm.init({callback:function(){$vm.load_first_module({url:$vm.hosting_path+'/layout.html'}); last();  }});	}
     //--------------------------------------------------------
     var load_js=function(url,next){
 	var ver=localStorage.getItem(url+"_ver");
