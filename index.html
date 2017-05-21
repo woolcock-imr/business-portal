@@ -4,22 +4,18 @@
 $vm={}; $VmAPI={};
 $(document).ready(function(){
 	//--------------------------------------------------------
-	$vm.repository="";
-	//--------------------------------------------------------
 	if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost'){
 		$vm.hosting_path    =window.location.protocol+'//'+window.location.host+'/woolcock-imr/business-portal';
 		$vm.library_path    =window.location.protocol+'//'+window.location.host;
-		$vm.server	    ="production";
-		$VmAPI.api_base	    ="https://rt.woolcock.org.au/";
-		$vm.debug	    =true;
+		$vm.debug	        =true;
 	}
 	else{
 		$vm.hosting_path    ="https://woolcock-imr.github.io/business-portal";
 		$vm.library_path    ='https://rt.woolcock.org.au/github';
-		$vm.server	    ="production";
-		$VmAPI.api_base	    ="https://rt.woolcock.org.au/";
 	}
 	//--------------------------------------------------------
+	$vm.server	        ="production";
+	$VmAPI.api_base	    ="https://rt.woolcock.org.au/";
 	$vm.debug_message	   =true;
 	//--------------------------------------------------------
 	var start=function(){
