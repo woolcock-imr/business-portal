@@ -8,6 +8,7 @@
 			<ul>
 				<li data-name=module>Modules</li>
 				<li data-name=query>Queries</li>
+				<li data-name=group>Groups</li>
 				<br>
 				<li data-name=import_and_export>Import and export</li>
 				<li data-name=third_party data-s=1>Third party modules</li>
@@ -34,8 +35,11 @@ function F__ID(){
 			app_id:_app_id,
 			module_tid      :'20010434',
 			query_tid       :'20010437',
+			query_form		:A+'query_form',
 		}
 		//---------------------------------------------
+		L[A+'group']         ={table_id:'',           var:v, url:G+'/portal/group.html'};
+		L[A+'group_panel']   ={table_id:'',           var:v, url:G+'/portal/group.panel.html'};
 		L[A+'module']        ={table_id:v.module_tid,       var:v,     url:G+'/portal/module.html'};
 		L[A+'query']         ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.html',form_module:A+'query_form'};
 		L[A+'query_form']    ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.form.html'};
