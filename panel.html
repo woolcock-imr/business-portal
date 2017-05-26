@@ -1,9 +1,9 @@
 <div>
-	<div id=toolbar__ID>
-		<a id=back__ID>Back</a><span class=tab__ID></span><span id=nav_link__ID></span>
-	</div>
-	<div id=panel__ID style='clear:left;'>
-		<div class='nav__ID'>
+    <div id=toolbar__ID>
+        <a id=back__ID>Back</a><span class=tab__ID></span><span id=nav_link__ID></span>
+    </div>
+    <div id=panel__ID style='clear:left;'>
+        <div class='nav__ID'>
 			<br>
 			<ul>
 				<li data-name=module>Modules</li>
@@ -11,39 +11,41 @@
 				<li data-name=group>Groups</li>
 				<br>
 				<li data-name=import_and_export>Import and export</li>
-				<li data-name=third_party data-s=1>Third party modules</li>
+				<br>
 			</ul>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 <script>
+//---------------------------------------------
 function F__ID(){
 	//---------------------------------------------
-	VmInclude:__BASE__/vmiis/Common-Code/navigation/navigation.js
-	VmInclude:__BASE__/vmiis/Common-Code/style/ease-in-out_2.js
+	VmInclude:__LIB__/vmiis/Common-Code/navigation/navigation.js
+	VmInclude:__LIB__/vmiis/Common-Code/style/ease-in-out_2.js
 	//---------------------------------------------
 	var module_list=function(){
 		_app_id='';
 		//---------------------------------------------
 		var L=$vm.module_list,A=_app_id,G='https://vmiis.github.io/modules';
 		if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost'){
-	                G=window.location.protocol+'//'+window.location.host+"/vmiis/modules";
-	        }
+			G=window.location.protocol+'//'+window.location.host+"/vmiis/modules";
+		}
 		//---------------------------------------------
 		//variables used inside modules
 		var v={
 			app_id:_app_id,
-			module_tid      :'20010434',
-			query_tid       :'20010437',
+			module_tid      :'20010433',
+			query_tid       :'20010430',
 			query_form		:A+'query_form',
 		}
 		//---------------------------------------------
 		L[A+'group']         ={table_id:'',           var:v, url:G+'/portal/group.html'};
 		L[A+'group_panel']   ={table_id:'',           var:v, url:G+'/portal/group.panel.html'};
-		L[A+'module']        ={table_id:v.module_tid,       var:v,     url:G+'/portal/module.html'};
-		L[A+'query']         ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.html',form_module:A+'query_form'};
-		L[A+'query_form']    ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.form.html'};
-		L[A+'import_and_export']={                                     url:G+'/portal/import_and_export.html'};
+		L[A+'module']        ={table_id:v.module_tid, var:v, url:G+'/portal/module.html',form_module:A+'module_form'};
+		L[A+'module_form']   ={table_id:v.module_tid, var:v, url:G+'/portal/module.form.html'};
+		L[A+'query']         ={table_id:v.query_tid,  var:v, url:G+'/portal/query.html',form_module:A+'query_form'};
+		L[A+'query_form']    ={table_id:v.query_tid,  var:v, url:G+'/portal/query.form.html'};
+		L[A+'import_and_export']={                           url:G+'/portal/import_and_export.html'};
 		//---------------------------------------------
 	}
 	module_list();
@@ -51,26 +53,17 @@ function F__ID(){
 	_set_li_permissions();
 	//---------------------------------------------
 	$('#D__ID').on('load',function(){
-		_nav_name='Woolcock Business Portal';
+		_nav_name='Business Portal';
 		_set_nav_link();
 	});
-	//---------------------------------------------
-	_special_click_process=function(li){
-		var data_name=$(li).attr('data-name');
-		if(data_name=='third_party'){
-			var url='https://woolcock-imr.github.io/third-party-extension/index.html';
-			url+="?ver="+$vm.version+"&server="+$vm.server;
-			window.open(url,url);
-		}
-	}
 	//---------------------------------------------
 }
 </script>
 <style>
-    VmInclude:__BASE__/vmiis/Common-Code/navigation/navigation.css
-    VmInclude:__BASE__/vmiis/Common-Code/style/ease-in-out_2.css
+    VmInclude:__LIB__/vmiis/Common-Code/navigation/navigation.css
+    VmInclude:__LIB__/vmiis/Common-Code/style/ease-in-out_2.css
     #D__ID{
-        background: url("__BASE__/vmiis/common-code/image/texture.png");
+        background: url("__LIB__/vmiis/common-code/image/texture.png");
     }
     .nav__ID span{
         color:#005500;
