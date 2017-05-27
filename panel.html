@@ -40,10 +40,11 @@ function F__ID(){
 		//---------------------------------------------
 		L[A+'group']         ={table_id:'',           var:v, url:G+'/portal/group.html'};
 		L[A+'group_panel']   ={table_id:'',           var:v, url:G+'/portal/group.panel.html'};
-		L[A+'module']        ={table_id:v.module_tid,       var:v,     url:G+'/portal/module.html'};
-		L[A+'query']         ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.html',form_module:A+'query_form'};
-		L[A+'query_form']    ={table_id:v.query_tid,        var:v,     url:G+'/portal/query.form.html'};
-		L[A+'import_and_export']={                                     url:G+'/portal/import_and_export.html'};
+		L[A+'module']        ={table_id:v.module_tid, var:v, url:G+'/portal/module.html',form_module:A+'module_form'};
+		L[A+'module_form']   ={table_id:v.module_tid, var:v, url:G+'/portal/module.form.html'};
+		L[A+'query']         ={table_id:v.query_tid,  var:v, url:G+'/portal/query.html',form_module:A+'query_form'};
+		L[A+'query_form']    ={table_id:v.query_tid,  var:v, url:G+'/portal/query.form.html'};
+		L[A+'import_and_export']={                           url:G+'/portal/import_and_export.html'};
 		//---------------------------------------------
 	}
 	module_list();
