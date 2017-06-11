@@ -4,28 +4,51 @@
 $vm={}; $VmAPI={};
 $(document).ready(function(){
 	//--------------------------------------------------------
-	if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost'){
-		$vm.hosting_path    =window.location.protocol+'//'+window.location.host+'/woolcock-imr/business-portal';
-		$vm.library_path    =window.location.protocol+'//'+window.location.host;
-		$vm.debug	        =true;
-	}
-	else{
-		$vm.hosting_path    ="https://woolcock-imr.github.io/business-portal";
-		$vm.library_path    ='https://rt.woolcock.org.au/github';
-	}
-	//--------------------------------------------------------
-	$vm.server	        ="production";
-	$VmAPI.api_base	    ="https://rt.woolcock.org.au/";
-	$vm.debug_message	   =true;
-	//--------------------------------------------------------
 	var start=function(){
 		$vm.reload='';
 		if(window.location.toString().indexOf('reload=1')!=-1){
-		    $vm.reload=new Date().getTime().toString();
+			$vm.reload=new Date().getTime().toString();
 		}
-		var url=$vm.url($vm.hosting_path+'/version.html?_=')+new Date().getTime().toString();
+		var url='version.html?_='+new Date().getTime().toString();
 		if($vm.debug_message===true) console.log('load module from '+url);
-		$.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_vmapi();},'text')
+		$.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_config();},'text')
+	}
+	//--------------------------------------------------------
+	var load_config=function(){
+		var url='https://wappsystem.github.io/configurations/application/woolcock_pro.json?_v='+$vm.version+$vm.reload;
+		console.log('LOAD APP CONFIG '+url);
+		$.get($vm.url(url),function(txt){
+			var text=$('<div/>').html(txt).text();
+			//---------------------------
+			var config;
+			try{
+				config=JSON.parse(text);
+			}
+			catch (e){
+				alert("Error in app config file\n"+e);
+				return;
+			}
+			//--------------------------------------------------------
+			$vm.app_config=config;
+			//--------------------------------------------------------
+			$vm.hosting_path=config.hosting_path;
+			$vm.library_path=config.library_path;
+			if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost'){
+				$vm.hosting_path =window.location.protocol+'//'+window.location.host+"/woolcock-imr/business-portal";
+				$vm.library_path =window.location.protocol+'//'+window.location.host;
+				$vm.debug        =true;
+			}
+			//--------------------------------------------------------
+			$vm.server          =config.server;
+			$VmAPI.api_base     =config.api_path;
+			$vm.debug_message   =true;
+			//--------------------------------------------------------
+			$vm.config_list={}
+			//--------------------------------------------------------
+			load_vmapi();
+		},'text').fail(function() {
+			alert( "The application configuration file doesn't exist!" );
+		});
 	}
 	//--------------------------------------------------------
 	var load_vmapi   =function(){ load_js($vm.url('__LIB__/vmiis/VmAPI/distribution/vmapi.min.js'),load_vm);	}
@@ -33,20 +56,11 @@ $(document).ready(function(){
 	var init         =function(){ $vm.init({callback:function(){$vm.load_first_module({url:$vm.hosting_path+'/layout.html'}); last();  }});	}
 	//--------------------------------------------------------
 	var load_js=function(url,next){
-		var ver=localStorage.getItem(url+"_ver");
-		var txt=localStorage.getItem(url+"_txt");
-		//------------------------------------------
-		if(ver!=$vm.version || txt===null || $vm.debug===true || $vm.reload!=''){
-			if($vm.debug_message===true) console.log('load module from '+url+'?_='+$vm.version+$vm.reload);
-			$.get(url+'?_='+$vm.version+$vm.reload,function(data){
-				localStorage.setItem(url+"_txt",data);
-				localStorage.setItem(url+"_ver",$vm.version);
-				$('head').append('<scr'+'ipt>'+data+'</scr'+'ipt>');
-				next();
-			},'text');
-		}
-		else{ $('head').append('<scr'+'ipt>'+txt+'</scr'+'ipt>'); next(); }
-		//------------------------------------------
+		console.log('load js: '+url+'?_='+$vm.version+$vm.reload);
+		$.get(url+'?_='+$vm.version+$vm.reload,function(data){
+			$('head').append('<scr'+'ipt>'+data+'</scr'+'ipt>');
+			next();
+		},'text');
 	}
 	//--------------------------------------------------------
 	$vm.url=function(text){
@@ -54,6 +68,17 @@ $(document).ready(function(){
 		var re1=new RegExp('__LIB__/', 'g');   text=text.replace(re1,$vm.library_path+'/');
 		var re2=new RegExp('__HOST__/', 'g');  text=text.replace(re2,$vm.hosting_path+'/');
 		var re3=new RegExp('__VER__', 'g');    text=text.replace(re3,$vm.version);
+		if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost'){
+			text=text.replace('https://vmiis.github.io',window.location.protocol+'//'+window.location.host+'/vmiis');
+			text=text.replace('https://wappsystem.github.io',window.location.protocol+'//'+window.location.host+'/wappsystem');
+			text=text.replace('https://woolcock-imr.github.io',window.location.protocol+'//'+window.location.host+'/woolcock-imr');
+			text=text.replace('https://rt.woolcock.org.au/github/woolcock-imr',window.location.protocol+'//'+window.location.host+'/woolcock-imr');
+			text=text.replace('https://cbs.wappsystem.com/dev/github',window.location.protocol+'//'+window.location.host);
+		}
+		else{
+			text=text.replace('https://vmiis.github.io/business-portal','https://www.datalinkedin.com');
+			text=text.replace('https://wappsystem.github.io/business-portal','https://www.vmiis.com');
+		}
 		return text;
 	}
 	//--------------------------------------------------------
@@ -70,7 +95,7 @@ var last=function(){
         $.getScript('https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js',function(){last_last();});
         $.getScript('https://sdk.amazonaws.com/js/aws-sdk-2.1.34.min.js',function(){last_last();});
         $.getScript('https://www.google.com/jsapi',function(){
-            //please be aware of that "www.google.com" is not available in some countries (for example in China)
+            //please be aware of that "www.google.com" is not available in some countries (for example China)
             google.load('visualization', '1', {'packages':['corechart'],callback:function(){last_last();} } );
         });
         $('head').append("<link rel='stylesheet' href='https://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/redmond/jquery-ui.css'>");
@@ -81,7 +106,6 @@ var last=function(){
 var last_last=function(){
     jsN++;
     if(jsN===3){
-        $vm.check_and_clear_localstorage();
         //-------------------------------------
         $vm.module_list['alert_dialog_module']={table_id:'--------',url:'__LIB__/vmiis/Common-Code/dialog/alert_dialog_module.html'};
         $vm.load_module_by_name('alert_dialog_module','',{})
@@ -95,7 +119,7 @@ var last_last=function(){
         $vm.ready=1;
         //-------------------------------------
     }
-    $vm.trust_path=['https://rt.woolcock.org.au','https://woolcock-imr.github.io/modules','https://vmiis.github.io/modules','https://codepen.io/vmiis'];
+	$vm.trust_path=['https://vmiis.github.io','https://woolcock-imr.github.io','https://wappsystem.github.io','https://cbs.wappsystem.com','https://rt.woolcock.org.au','https://codepen.io/vmiis'];
 }
 //--------------------------------------------------------
 </script>
