@@ -15,7 +15,7 @@ $(document).ready(function(){
 	}
 	//--------------------------------------------------------
 	var load_config=function(){
-		var url='https://wappsystem.github.io/configurations/application/woolcock_pro.json?_v='+$vm.version+$vm.reload;
+		var url='https://vmiis.github.io/configurations/application/woolcock_pro.json?_v='+$vm.version+$vm.reload;
 		console.log('LOAD APP CONFIG '+url);
 		$.get($vm.url(url),function(txt){
 			var text=$('<div/>').html(txt).text();
