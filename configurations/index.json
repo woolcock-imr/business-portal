@@ -8,13 +8,14 @@
 	{
 		"home":
 		{
-			"url":"https://vmiis.github.io/modules/home/home.html"
-		}
-	},
-	"panels":
-	{
-		"main":{
-			"config_url":"/configurations/main-panel.json"
+			"url":"/modules/static/home.html"
+		},
+		"portal":
+		{
+			"module_id":"application",
+			"name":"Applications",
+			"table_id":"20010735",
+			"url":"/modules/dynamic/business-portal/application.html"
 		}
 	}
 }
